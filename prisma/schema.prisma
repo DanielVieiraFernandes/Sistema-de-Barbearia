@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Barbearia {
+  id              Int       @id @default(1)
+  name            String
+  address         String
+  telephone       String
+  operating_hours String
+  created_at      DateTime  @default(now())
+  updated_at      DateTime?
+  barbers         Barber[]
+
+  @@map("barbearia")
+}
+
+model Speacility {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  barbers     Barber[]  @relation("BarberSpecialites")
+
+  @@map("specialites")
+}
+
+enum UserRole {
+  BARBER
+  COSTUMER
+}
+
+model Barber {
+  id           String       @id @default(uuid())
+  barbeariaId  Int
+  name         String
+  age          Int
+  user         String
+  password     String
+  role         UserRole     @default(BARBER)
+  specialities Speacility[] @relation("BarberSpecialites")
+  barbearia    Barbearia    @relation(fields: [barbeariaId], references: [id])
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  @@map("barbers")
+}
