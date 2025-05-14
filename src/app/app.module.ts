@@ -1,3 +1,4 @@
+import { AuthModule } from '@/infra/auth/auth.module';
 import { envSchema } from '@/infra/env/env';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -8,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       validate: (env) => envSchema.parse(env),
     }),
+    AuthModule,
   ],
 })
 export class AppModule {}
