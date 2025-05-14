@@ -4,36 +4,47 @@ import { CreateBarberDto } from './dto/create-barber-dto';
 import { BarbersRepository } from './repositories/barbers-repository';
 import { Either, error, success } from '@/app/core/errors/either';
 import { HashGenerator } from '@/infra/cryptography/repositories/hash-generator';
+import { BarberAlreadyExists } from './errors/barber-already-exists-error';
+import { Encrypt } from '@/infra/cryptography/repositories/encrypt';
 
 @Injectable()
 export class BarberService {
   constructor(
-    private readonly prisma: PrismaService,
     private readonly barbersRepository: BarbersRepository,
     private readonly hashGenerator: HashGenerator,
+    private readonly encrypt: Encrypt,
   ) {}
 
-  async createBarber({
-    age,
-    name,
-    password,
-    user,
-  }: CreateBarberDto): Promise<Either<Error, {}>> {
+  async createBarber({ age, name, password, user }: CreateBarberDto): Promise<
+    Either<
+      BarberAlreadyExists,
+      {
+        accessToken: string;
+      }
+    >
+  > {
     const barber = await this.barbersRepository.findByUser(user);
 
     if (barber) {
-      return error(new Error('O Barbeiro já existe no sistema'));
+      return error(new BarberAlreadyExists());
     }
 
     const passwordHashed = await this.hashGenerator.hash(password);
 
-    await this.barbersRepository.create({
+    const barberCreated = await this.barbersRepository.create({
       age,
       name,
       password: passwordHashed,
       user,
     });
 
-    return success({});
+    const accessToken = await this.encrypt.encrypt(
+      barberCreated.id,
+      barberCreated.role,
+    );
+
+    return success({
+      accessToken,
+    });
   }
 }

@@ -47,7 +47,7 @@ model Barber {
   barbeariaId  Int
   name         String
   age          Int
-  user         String
+  user         String       @unique
   password     String
   role         UserRole     @default(BARBER)
   specialities Speacility[] @relation("BarberSpecialites")

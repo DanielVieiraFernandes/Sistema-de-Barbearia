@@ -5,7 +5,7 @@ const createBarber = z.object({
   name: z.string().min(3).max(100),
   age: z.coerce.number().int().min(16).max(110),
   user: z.string(),
-  password: z.string().length(6),
+  password: z.string().length(6, `A senha deve conter 6 caracteres`),
 });
 
 export class CreateBarberDto extends createZodDto(createBarber) {}

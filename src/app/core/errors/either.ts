@@ -9,7 +9,7 @@ export class Success<E, S> {
     return true;
   }
 
-  isError(): this is Success<E, S> {
+  isError(): this is Error<E, S> {
     return false;
   }
 }
@@ -25,7 +25,7 @@ export class Error<E, S> {
     return false;
   }
 
-  isError(): this is Success<E, S> {
+  isError(): this is Error<E, S> {
     return true;
   }
 }
@@ -36,6 +36,6 @@ export const success = <E, S>(value: S): Either<E, S> => {
   return new Success(value);
 };
 
-export const error = <E, S>(value: S): Either<E, S> => {
+export const error = <E, S>(value: E): Either<E, S> => {
   return new Error(value);
 };

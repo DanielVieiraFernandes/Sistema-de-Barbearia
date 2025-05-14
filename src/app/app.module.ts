@@ -1,5 +1,6 @@
 import { AuthModule } from '@/infra/auth/auth.module';
 import { envSchema } from '@/infra/env/env';
+import { BarberModule } from '@/modules/barber/barber.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -10,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
       validate: (env) => envSchema.parse(env),
     }),
     AuthModule,
+    BarberModule,
   ],
 })
 export class AppModule {}
