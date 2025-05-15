@@ -1,4 +1,3 @@
-import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { CreateBarberDto } from './dto/create-barber-dto';
 import { BarbersRepository } from './repositories/barbers-repository';
@@ -15,7 +14,13 @@ export class BarberService {
     private readonly encrypt: Encrypt,
   ) {}
 
-  async createBarber({ age, name, password, user }: CreateBarberDto): Promise<
+  async createBarber({
+    age,
+    name,
+    password,
+    user,
+    especialidade,
+  }: CreateBarberDto): Promise<
     Either<
       BarberAlreadyExists,
       {
@@ -25,9 +30,7 @@ export class BarberService {
   > {
     const barber = await this.barbersRepository.findByUser(user);
 
-    if (barber) {
-      return error(new BarberAlreadyExists());
-    }
+    if (barber) return error(new BarberAlreadyExists());
 
     const passwordHashed = await this.hashGenerator.hash(password);
 
@@ -36,6 +39,7 @@ export class BarberService {
       name,
       password: passwordHashed,
       user,
+      especialidade,
     });
 
     const accessToken = await this.encrypt.encrypt(
@@ -46,5 +50,9 @@ export class BarberService {
     return success({
       accessToken,
     });
+  }
+
+  async findAllBarbers(){
+
   }
 }

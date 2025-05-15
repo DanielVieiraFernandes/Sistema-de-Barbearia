@@ -1,10 +1,8 @@
 POST http://localhost:3333/api/barber
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNjMyYTFlMC04YjhhLTRhZmQtOTIxMC05YzNjZWU1NmQwNWMiLCJyb2xlIjoiQkFSQkVSIiwiaWF0IjoxNzQ3MjY0NzM0LCJleHAiOjE3NDczNTExMzR9.GK943WToVBvzwq0FvuCuW-kehSYU3cdhWuVadvrvuxEFPkCWYXRdwAyO7kEzbftBQgU26cSvFiV1PfXwR471czENzEnm6F_m8YdlCB4anBzJBx68cE9h6Oz1n9J8lfJOAHCeUUwx7QnHUwLql1OJxhg174QN4ajvNsnn5-987iBL8Lzp2Isb68klXv_l8c0PFle8t1tIQCWBw9ZxXR7mBGEJBbEu4mALX5bHdDUghhaTzLjsMimLcCMd4m1txwOOiysAv7I_zM2GC1jC3j-4DPIJ8_CRn6I-j_xq_3kwA6FmIP5KSzNI9Ot4cJP6Z9GzlUrPIfgcOeNFNrtkfqqT1Q
 
 {
     "name": "Daniel",
     "age": "19",
-    "user": "@AA@7",
+    "user": "Daniboy_12",
     "password": "123456"
 }
